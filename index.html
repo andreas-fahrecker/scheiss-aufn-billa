@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0f14" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/png" href="icons/app_icon.png" />
+    <link rel="apple-touch-icon" href="icons/app_icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Scheiss auf'n Billa</title>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="title"><span class="title-mark" aria-hidden="true">🛒</span> Blei'ma draußen.</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="tab-view active" id="view-home" data-view="home">
+            <div class="home-wrap">
+                <!-- <div class="label">Aktueller Streak</div> -->
+                <div class="home-meter">
+                    <svg class="home-arc" viewBox="0 0 320 180" aria-hidden="true">
+                        <path id="counterArcTrack" d="M 30 150 A 130 130 0 0 1 290 150"></path>
+                        <path id="counterArcProgress" d="M 30 150 A 130 130 0 0 1 290 150"></path>
+                    </svg>
+                    <div class="meter-content">
+                        <div class="big-number" id="countToday">0</div>
+                        <div class="streak-copy">
+                            <div class="streak-line-1">Tage ned</div>
+                            <div class="streak-line-2">im Billa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-controls">
+                    <button class="btn reset" id="btnResetStreak" aria-label="Streak zurücksetzen">I hoss die oaschbude</button>
+                </div>
+
+                <div class="hint">Wenn du aus Versehen tippst, kannst du kurz danach rückgängig machen.</div>
+
+                <section class="home-stat-list">
+                    <div class="home-stat-row">
+                        <span class="home-stat-icon" aria-hidden="true">🔥</span>
+                        <span class="home-stat-label">Aktueller Streak</span>
+                        <span class="home-stat-value" id="homeCurrent">0</span>
+                    </div>
+                    <div class="home-stat-row">
+                        <span class="home-stat-icon" aria-hidden="true">🏆</span>
+                        <span class="home-stat-label">Längster Streak</span>
+                        <span class="home-stat-value" id="homeLongest">0</span>
+                    </div>
+                    <div class="home-stat-row">
+                        <span class="home-stat-icon" aria-hidden="true">🗓️</span>
+                        <span class="home-stat-label">Insgesamt Ned-Tage</span>
+                        <span class="home-stat-value" id="homeTotalDays">0</span>
+                    </div>
+                    <div class="home-stat-row">
+                        <span class="home-stat-icon" aria-hidden="true">😵</span>
+                        <span class="home-stat-label">Rückfälle</span>
+                        <span class="home-stat-value" id="homeRelapses">0</span>
+                    </div>
+                </section>
+
+                <section class="card home-recent-achievements">
+                    <h2>Zuletzt freigeschaltet</h2>
+                    <div class="badges" id="recentBadges"></div>
+                    <div class="micro" id="recentBadgesHint">Noch keine Achievements freigeschaltet.</div>
+                </section>
+            </div>
+        </section>
+
+        <section class="tab-view" id="view-stats" data-view="stats">
+            <section class="card">
+                <h2>Statistiken</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="k">Aktueller Streak</div>
+                        <div class="v" id="statsCurrent">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="k">Längster Streak</div>
+                        <div class="v" id="statsLongest">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="k">Gesamt</div>
+                        <div class="v" id="statsTotalDays">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="k">Rückfälle</div>
+                        <div class="v" id="statsRelapses">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>An welchen Wochentagen resettet wurde</h2>
+                <div class="bar-list" id="resetWeekdayBars"></div>
+            </section>
+
+            <section class="card">
+                <h2>Top Reset-Wochentag</h2>
+                <div class="stat">
+                    <div class="k">Am häufigsten</div>
+                    <div class="v" id="resetTopWeekday">—</div>
+                    <div class="m" id="resetTopWeekdayMeta">Noch keine Rückfälle</div>
+                </div>
+            </section>
+        </section>
+
+        <section class="tab-view" id="view-badges" data-view="badges">
+            <section class="card">
+                <h2>Badges</h2>
+                <div class="badges" id="badges"></div>
+                <div class="micro" id="badgeRequirementText">Tippe auf einen gesperrten Badge, um die Freischalt-Bedingung zu sehen.</div>
+                <div class="micro">Badges werden lokal freigeschaltet – keine Cloud.</div>
+            </section>
+        </section>
+
+        <section class="tab-view" id="view-settings" data-view="settings">
+            <section class="card">
+                <h2>Quick Actions</h2>
+                <div class="actions">
+                    <button class="secondary" id="btnUndo">Undo</button>
+                    <button class="secondary" id="btnSet">Heute setzen…</button>
+                    <button class="danger" id="btnReset">Reset…</button>
+                </div>
+                <div class="micro" id="undoHint"></div>
+            </section>
+
+            <section class="card">
+                <h2>Export / Import</h2>
+                <div class="actions">
+                    <button class="secondary" id="btnExport">Export (JSON)</button>
+                    <label class="btn primary file">
+                        Import (JSON)
+                        <input type="file" id="importFile" accept="application/json" />
+                    </label>
+                </div>
+
+                <label class="field">
+                    <span>Backup-Text</span>
+                    <textarea id="backupText" rows="6" spellcheck="false"></textarea>
+                </label>
+
+                <button class="btn primary" id="btnImportText">Aus Text importieren</button>
+            </section>
+        </section>
+    </main>
+
+    <nav class="tabbar" aria-label="Hauptnavigation">
+        <button class="tab active" data-tab="home" aria-label="Hauptseite">Hauptseite</button>
+        <button class="tab" data-tab="stats" aria-label="Statistik">Statistik</button>
+        <button class="tab" data-tab="badges" aria-label="Badges">Badges</button>
+        <button class="tab" data-tab="settings" aria-label="Einstellungen">Einstellungen</button>
+    </nav>
+
+    <div class="snackbar" id="undoSnackbar" role="status" aria-live="polite">
+        <span id="snackbarText">Streak zurückgesetzt.</span>
+        <button id="snackbarUndo" type="button">Rückgängig</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
